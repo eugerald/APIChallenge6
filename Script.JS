@@ -3,20 +3,42 @@ var weatherFormEle = document.getElementById("Weather")
 weatherFormEle.addEventListener("submit", buttonClick)
 console.log("Javascript File")
 
+displayCity()
 function buttonClick(e) {
     e.preventDefault();
     var searchtext = document.getElementById("city").value
     console.log("text",searchtext)
+    var storedCity = JSON.parse(localStorage.getItem("weatherapi")) || []
+    storedCity.push(searchtext)
+    localStorage.setItem("weatherapi",JSON.stringify(storedCity))
+    displayCity()
     forecast(searchtext)
 }
 
+function displayCity(){
+    var data = document.getElementById("previousSearch") 
+    var storedCity = JSON.parse(localStorage.getItem("weatherapi")) || []
+    var buttonHTML = ""
+    for(let i =0;i<storedCity.length;i=i+8){
+        buttonHTML += `<button class="searchCity">${storedCity[i]}</button>`
+    }
+    data.innerHTML=buttonHTML
+    var button = document.querySelectorAll(".searchcity")
+    button.forEach(element => element.addEventListener("click",getButtonText))
+}
 
+function getButtonText(){
+    var city = this.textContent
+    console.log("city",city)
+    forecast(city)
+}
 function forecast(city) {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}&units=imperial`)
         .then(response => response.json())
         .then(apidata => {
             var data = apidata.list
             console.log(apidata,data)
+            document.getElementById("city").innerText = city
             var htmlCard =""
             for(let i =0;i<data.length;i=i+8){
                     htmlCard +=  `<div class="card" style="width: 18rem;">
