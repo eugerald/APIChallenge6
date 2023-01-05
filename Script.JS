@@ -18,8 +18,9 @@ function buttonClick(e) {
 function displayCity(){
     var data = document.getElementById("previousSearch") 
     var storedCity = JSON.parse(localStorage.getItem("weatherapi")) || []
+    console.log(storedCity)
     var buttonHTML = ""
-    for(let i =0;i<storedCity.length;i=i+8){
+    for(let i =0;i<storedCity.length;i=i++){
         buttonHTML += `<button class="searchCity">${storedCity[i]}</button>`
     }
     data.innerHTML=buttonHTML
@@ -38,7 +39,7 @@ function forecast(city) {
         .then(apidata => {
             var data = apidata.list
             console.log(apidata,data)
-            document.getElementById("city").innerText = city
+            document.getElementById("city").textContent = city
             var htmlCard =""
             for(let i =0;i<data.length;i=i+8){
                     htmlCard +=  `<div class="card" style="width: 18rem;">
