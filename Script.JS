@@ -19,9 +19,9 @@ function displayCity(){
     var data = document.getElementById("previousSearch") 
     var storedCity = JSON.parse(localStorage.getItem("weatherapi")) || []
     console.log(storedCity)
-    var buttonHTML = ""
+    var buttonHTML = "<h4>Previous Search</h4>"
     for(let i =0; i<storedCity.length; i++){
-        buttonHTML += `<button class="searchCity">${storedCity[i]}</button>`
+        buttonHTML += `<button class="searchCity btn btn-info m-1 p-1">${storedCity[i]}</button>`
     }
     data.innerHTML=buttonHTML
     var button = document.querySelectorAll(".searchCity")
